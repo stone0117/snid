@@ -1,2 +1,2 @@
-# snid
-snid
+# snid.js
+snid.js

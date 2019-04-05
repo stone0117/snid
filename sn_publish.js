@@ -23,18 +23,12 @@ fs.readFile(p, 'utf-8', function (err, data) {
         const spinner = ora('publish and global install ...').start()
 
         execa.shell('npm publish').then(({ stdout, code }) => {
-
           console.log(stdout)
-
           if (code === 0) {
-
             execa.shell('npm i -g snid').then(({ stdout, code }) => {
-
               console.log(stdout)
-
               spinner.succeed('succeed')
             })
-
           } else {
             spinner.fail(err)
           }

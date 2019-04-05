@@ -1,6 +1,6 @@
 {
   "name": "snid",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "snid",
   "main": "index.js",
   "bin": {

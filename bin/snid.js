@@ -7,14 +7,14 @@ const program                       = require('commander')
 
 program
   .version('1.0.0')
-  .option('-u --url [url]', 'url address')
-  .option('--mobile [mobile]', 'mobile mode | true or false | default false')
-  .option('--browser [browser]', 'show browser | true or false | default false | true = show browser')
+  .option('-u --url [url]', 'url address | string | required')
+  .option('-o --output [output]', 'output path | string | required | e.g "/Users/stone/Desktop/result.txt" or "C:\\Users\\stone\\Desktop\\result.txt"')
+  .option('--mobile [mobile]', 'mobile mode | boolean | default false')
+  .option('--browser [browser]', 'show browser | boolean | default false | true = show browser')
   .option('--selector [selector]', 'selector element | string | default ".loadMoreBtn b"')
   .option('--loopCount [loopCount]', 'for loop count | number | default 5')
   .option('--timeInterval [timeInterval]', 'time interval | number | default 2000')
-  .option('--debug [debug]', 'debug | true or false | enabled debug | default false')
-  .option('-o --output [output]', 'output path | string | default current path | e.g ./result.txt')
+  .option('--debug [debug]', 'debug | boolean | enabled debug | default false')
 
 program.parse(process.argv)
 
@@ -22,7 +22,6 @@ let debug = false
 if (program.debug) {
   debug = program.debug === 'true'
 }
-
 
 if (process.argv.slice(2).length <= 0) {
   program.outputHelp(make_red)
@@ -51,13 +50,30 @@ function make_red (txt) {
 
 async function main () {
 
-  let url = 'https://jusp.tmall.com/act/o/zmwzt315?acm=ak-zebra-68661-197540.1003.4.2708254&scm=1003.4.ak-zebra-68661-197540.OTHER_1553263234528_2708254'
+  // let url = 'https://jusp.tmall.com/act/o/zmwzt315?acm=ak-zebra-68661-197540.1003.4.2708254&scm=1003.4.ak-zebra-68661-197540.OTHER_1553263234528_2708254'
+  let url
 
-  url                = program.url ? program.url : url
+  // url = program.url ? program.url : url
+
+  if (url) {
+    url = program.url
+  } else {
+    program.outputHelp(make_red)
+    process.exit(0)
+  }
+
+  let output
+  if (program.output) {
+    output = program.output
+  } else {
+    program.outputHelp(make_red)
+    process.exit(0)
+
+  }
+
   const loopCount    = parseInt(program.loopCount ? program.loopCount : '5')
   const timeInterval = parseInt(program.timeInterval ? program.timeInterval : '2000')
   const selector     = program.selector ? program.selector : '.loadMoreBtn b'
-  const output       = program.output ? program.output : './result.txt'
 
   let headless = true
   if (program.browser) {
